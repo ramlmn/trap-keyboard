@@ -23,7 +23,7 @@ trap.trap();
 The `TrapKeyboard` class takes a DOM node(`element`) as its parameter.
 
 > Note: Creating an object for `TrapKeyboard` class would by default call the
-> `trap` method. Change this if not needed.
+> `trap` method. Pass the second argument as `false` for it to not.
 
 To untrap the keyboard, just call the `unTrap` method on the reference object:
 ``` js

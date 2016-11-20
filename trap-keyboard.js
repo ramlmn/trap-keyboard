@@ -17,9 +17,9 @@
 
 'use strict';
 
-export default class TrapKeyboard {
+class TrapKeyboard {
 
-  constructor(container) {
+  constructor(container, trapDefault = true) {
 
     // Check if the container element is a DOM node 
     if (!(container.nodeType === 1)) {
@@ -51,7 +51,9 @@ export default class TrapKeyboard {
     // Add a MutationObserver to watch for DOM changes
     this.observer = new MutationObserver(this.boundOnMutation);
 
-    this.trap();
+    if (trapDefault) {
+      this.trap();
+    }
 
   }
 
