@@ -17,17 +17,17 @@
 
 'use strict';
 
-class TrapKeyboard {
+export default class TrapKeyboard {
 
   constructor(container) {
 
-    // Is the container a DOM node?
-    if (!container.nodeType) {
-      console.error('\'container\' is not of nodeType');
+    // Check if the container element is a DOM node 
+    if (!(container.nodeType === 1)) {
+      console.error('"container" is not a DOM node');
       return;
     }
 
-    this.container_ = container;
+    this.container = container;
 
     // Query all possible focusable elements
     this.focusableElementsString = [
@@ -49,20 +49,17 @@ class TrapKeyboard {
     this.boundOnMutation = this.onMutation.bind(this);
 
     // Add a MutationObserver to watch for DOM changes
-    this.observer = new MutationObserver(this.onMutation.bind(this));
-    this.observer.observe(this.container_, {
-      childList: true,
-      attributes: true,
-      subtree: true
-    });
+    this.observer = new MutationObserver(this.boundOnMutation);
 
     this.trap();
 
   }
 
-  onMutation(mutations = null) {
+  onMutation() {
 
-    let elements = Array.from(this.container_.querySelectorAll(this.focusableElementsString));
+    let elements = Array.from(
+        this.container.querySelectorAll(this.focusableElementsString)
+      );
     this.focusableElements = [];
 
     elements.forEach(el => {
@@ -70,16 +67,21 @@ class TrapKeyboard {
       let gcs = getComputedStyle(el);
 
       // Check if the element is accessible
-      // Note: Not an ideal solution for chacking visibility and display
-      if (!(gcs.display === 'none' || gcs.visibility === 'hidden' || el.getAttribute('tabindex') === -1)) {
+      // Note: Not an ideal solution for checking visibility and display
+      if (!(gcs.display === 'none')
+        || !(gcs.visibility === 'hidden')
+        || !(el.getAttribute('tabindex') === -1)) {
+
         this.focusableElements.push(el);
+
       }
 
     });
 
     // Get the first and last tab stops to act as anchor points
     this.firstTabStop = this.focusableElements[0];
-    this.lastTabStop = this.focusableElements[this.focusableElements.length - 1];
+    this.lastTabStop =
+      this.focusableElements[this.focusableElements.length - 1];
 
   }
 
@@ -115,11 +117,18 @@ class TrapKeyboard {
   trap() {
 
     // Add a keydown event
-    this.container_.addEventListener('keydown', this.boundTrapTabKey);
+    this.container.addEventListener('keydown', this.boundTrapTabKey);
 
     // Need to update on window resize if any CSS Media Queries might change
     // the visibility and display of focusable elements
     window.addEventListener('resize', this.boundOnMutation);
+
+    // Start observing when trap is called
+    this.observer.observe(this.container, {
+      childList: true,
+      attributes: true,
+      subtree: true
+    });
 
     // Call this
     this.onMutation();
@@ -132,7 +141,7 @@ class TrapKeyboard {
   unTrap() {
 
     // Remove the event listeners
-    this.container_.removeEventListener('keydown', this.boundTrapTabKey);
+    this.container.removeEventListener('keydown', this.boundTrapTabKey);
     window.removeEventListener('resize', this.boundOnMutation);
 
     // And also the mutation observer
