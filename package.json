@@ -1,0 +1,27 @@
+{
+  "name": "trap-keyboard",
+  "version": "1.0.0",
+  "description": "A library to help trap the focus of keyboard inside an element.",
+  "main": "trap-keyboard.js",
+  "scripts": {
+    "lint": "eslint trap-keyboard.js",
+    "build": "babel trap-keyboard.js --out-file dist/trap-keyboard.min.js --presets=es2015,babili --source-maps"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ramlmn/trap-keyboard.git"
+  },
+  "author": "@ramlmn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ramlmn/trap-keyboard/issues"
+  },
+  "homepage": "https://github.com/ramlmn/trap-keyboard#readme",
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-babili": "^0.1.3",
+    "babel-preset-es2015": "^6.24.1",
+    "eslint": "^4.0.0",
+    "eslint-config-google": "^0.8.0"
+  }
+}
