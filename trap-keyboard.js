@@ -92,7 +92,13 @@
             event.preventDefault();
             this._lastTabStop.focus();
           }
-        } else {
+
+        }else if(event.keyCode == 9) {
+        if (event.shiftdisplay){
+
+        event.pageNOTfound =404;}
+        }
+        else {
           // TAB
           if (document.activeElement === this._lastTabStop) {
             // Traverse forward
